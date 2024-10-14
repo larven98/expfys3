@@ -53,6 +53,13 @@ def read_data_from_file(filepath: str) -> pd.DataFrame:
             df = pd.DataFrame(index=y_axis, data=data)
         return df
 
+def read_cycle_data(filepath: str) -> pd.DataFrame:
+    data = pd.read_csv(filepath, delimiter="\t", header=0)
+    # Drop all unnamed columns
+    data = data.loc[:, ~data.columns.str.contains("^Unnamed")]
+    return data
+
+
 def convert_to_utf8(filepath: str, encoding="iso-8859-15"):
     import codecs
     with codecs.open(filepath, "r", encoding=encoding) as infile:
@@ -70,4 +77,4 @@ if __name__ == "__main__":
     y = np.array(df[1000.94][320.151]).flatten()
     print(y)
     ax.plot(cols, y)
-    fig.savefig("test.png")
+    plt.show()
